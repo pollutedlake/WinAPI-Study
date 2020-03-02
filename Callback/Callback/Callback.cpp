@@ -42,7 +42,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 // uMsg : WM_Timer
 // idEvent : 타이머 ID
 // dwTime : 윈도우즈가 실행된 후의 경과시간
-void CALLBACK TimerProc(HWND hWnd, UINT uMsg, UINT idEvent, DWORD dwTime) {
+// WM_TIMER 메시지는 다른 메세지가 있을 경우 실행 순서에 밀려 늦게 호출되는 경우가 있지만 콜백함수를 사용하면 정확한 시간에 호출된다.
+void CALLBACK TimerProc(HWND hWnd, UINT uMsg, UINT idEvent, DWORD dwTime) {		// Callback 함수 : 응용 프로그램이 제공하며 운영체제가 필요할 때 호출하는 함수
 	HDC hdc;
 	int i;
 	hdc = GetDC(hWnd);

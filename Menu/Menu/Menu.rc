@@ -52,25 +52,56 @@ END
 
 IDR_MENU1 MENU
 BEGIN
-    POPUP "File"
+    POPUP "&File"
     BEGIN
-        MENUITEM "Menu1",                       ID_FILE_MENU1
-        MENUITEM "Menu2",                       ID_FILE_MENU2
-        MENUITEM "Exit",                        ID_FILE_EXIT
+        MENUITEM "Menu&1\tCtrl+A",              ID_FILE_MENU1
+        MENUITEM "Menu&2\tCtrl+B",              ID_FILE_MENU2
+        MENUITEM "&Exit\tCtrl+C",               ID_FILE_EXIT
     END
 END
 
 IDR_MENU2 MENU
 BEGIN
-    POPUP "File"
+    POPUP "&File"
     BEGIN
         MENUITEM "Open",                        ID_FILE_OPEN
-        MENUITEM "Save",                        ID_FILE_SAVE
-        MENUITEM "Edit",                        0
+        MENUITEM "Save",                        ID_FILE_SAVE40011
+        POPUP "Edit"
+        BEGIN
+            MENUITEM "Cut",                         ID_EDIT_CUT
+            MENUITEM "Copy",                        ID_EDIT_COPY
+            MENUITEM "Paster",                      ID_EDIT_PASTER
+            MENUITEM "Delete",                      ID_EDIT_DELETE
+            MENUITEM SEPARATOR
+            MENUITEM "Select All",                  ID_EDIT_SELECTALL
+        END
         MENUITEM "Print",                       ID_FILE_PRINT
         MENUITEM "Exit",                        ID_FILE_EXIT40009
     END
     MENUITEM "Help",                        0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON1               ICON                    "icon1.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_ACCELERATOR1 ACCELERATORS
+BEGIN
+    "A",            ID_FILE_MENU1,          VIRTKEY, CONTROL, NOINVERT
+    "B",            ID_FILE_MENU2,          VIRTKEY, CONTROL, NOINVERT
+    "C",            ID_FILE_EXIT,           VIRTKEY, CONTROL, NOINVERT
 END
 
 #endif    // 한국어(대한민국) resources

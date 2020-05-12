@@ -1,7 +1,7 @@
 ﻿#include<Windows.h>
 // 메뉴 항목의 ID는 정수로 정의하되 사람이 일일이 정수값을 기억하기 곤란하므로 매크로 상수를 사용하여 ID를 정의하고 메뉴 편집기는 사용자가 입력한 ID를 정수 매크로로 정의하여 resource.h를 작성한다.
 // 그래서 우리는 속성 편집기에서 메뉴의 ID를 문자열 형태의 매크로 상수로 입력하고 resource.h만 인클루드하면 된다.
-#include"resource.h"
+#include"resource1.h"
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 HINSTANCE g_hInst;
@@ -11,6 +11,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 	HWND hWnd;
 	MSG Message;
 	WNDCLASS WndClass;
+	HACCEL hAccel;
+	// HACCEL LoadAccelerators(HINSTANCE hInstance, LPCTSTR lpTableName);	: 리소스로부터 엑셀러레이터 테이블을 읽은 후 그 핸들을 리턴한다.
+	// lpTableName : 액셀러레이터 테이블의 이름 문자열 포인터이되 IDR_ACCELERATOR1은 정수값이므로 MAKEINTRESOUCE 매크로를 사용해야 한다.
+	hAccel = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDR_ACCELERATOR1));
 	g_hInst = hInstance;
 
 	WndClass.cbClsExtra = 0;
@@ -31,8 +35,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 	ShowWindow(hWnd, nCmdShow);
 
 	while (GetMessage(&Message, NULL, 0, 0)) {
-		TranslateMessage(&Message);
-		DispatchMessage(&Message);
+		// int TranslateAccelerator(HWND hWnd, HACCEL hAccTable, LPMSG lpMsg);	: 키보드 메시지를 WM_COMMAND 메시지로 변경하여 액셀러레이터가 동작할 수 있도록 한다.
+		// lpMsg의 키보드 입력값을 읽어 이 키값이 hAccTable에 있는지 먼저 살펴보고 있을 경우 그 키에 해당하는 WM_COMMAND 메시지를 hWnd 윈도우로 전달하고 TRUE를 리턴해 버린다. 이 때 WM_KEYDOWN은 사라진다.
+		if (!TranslateAccelerator(hWnd, hAccel, &Message)) {
+			TranslateMessage(&Message);
+			DispatchMessage(&Message);
+		}
 	}
 	return(int)Message.wParam;
 }

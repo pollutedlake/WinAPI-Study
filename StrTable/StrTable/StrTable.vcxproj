@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{1A026FB1-E0E4-4019-9774-EC3D5F000A39}</ProjectGuid>
+    <ProjectGuid>{9757EB20-0136-49A5-8122-B6762FDA070C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Menu</RootNamespace>
+    <RootNamespace>StrTable</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -148,21 +148,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
-    <ClInclude Include="Menu.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="resource1.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="StrTable.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="StrTable.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="icon1.ico" />
-    <Image Include="Menu.ico" />
+    <ResourceCompile Include="StrTable.rc" />
+  </ItemGroup>
+  <ItemGroup>
     <Image Include="small.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Menu.rc" />
+    <Image Include="StrTable.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,0 +1,3 @@
+﻿  RopMode.cpp
+C:\Users\psh95\OneDrive\바탕 화면\상현\공부\Game Programing\WinAPI-Study\RopMode\RopMode\RopMode.cpp(50,14): warning C4101: 'ps' :참조되지 않은 지역 변수입니다.
+  RopMode.vcxproj -> C:\Users\psh95\OneDrive\바탕 화면\상현\공부\Game Programing\WinAPI-Study\RopMode\Debug\RopMode.exe

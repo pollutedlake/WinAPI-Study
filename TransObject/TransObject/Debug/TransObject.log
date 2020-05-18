@@ -1,0 +1,3 @@
+﻿  TransObject.cpp
+C:\Users\psh95\OneDrive\바탕 화면\상현\공부\Game Programing\WinAPI-Study\TransObject\TransObject\TransObject.cpp(39,6): warning C4101: 'i' :참조되지 않은 지역 변수입니다.
+  TransObject.vcxproj -> C:\Users\psh95\OneDrive\바탕 화면\상현\공부\Game Programing\WinAPI-Study\TransObject\Debug\TransObject.exe

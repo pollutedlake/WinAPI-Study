@@ -33,54 +33,42 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 	return(int)Message.wParam;
 }
 
-void TestResource(BOOL bUnSel, BOOL bDelete, int num) {
-	HDC hdc;
-	HPEN hPen, OldPen;
-	int i;
-	TCHAR str[256];
-
-	hdc = GetDC(hWndMain);
-	for (i = 0; i < num; i++) {
-		hPen = CreatePen(PS_SOLID, rand() % 5 + 1, RGB(rand() % 256, rand() % 256, rand() % 256));
-		OldPen = (HPEN)SelectObject(hdc, hPen);
-		MoveToEx(hdc, rand() % 300, rand() % 200 + 40, NULL);
-		LineTo(hdc, rand() % 300, rand() % 200 + 40);
-		if (bUnSel) {
-			SelectObject(hdc, OldPen);
-		}
-		if (bDelete) {
-			DeleteObject(hPen);
-		}
-		wsprintf(str, TEXT("%d"), i);
-		SetWindowText(hWndMain, str);
-	}
-}
-
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam) {
 	HDC hdc;
 	PAINTSTRUCT ps;
-	const TCHAR* Mess = TEXT("1 : 정상적인 경우, 2 : 선택 해제없이 삭제만, 3 : 삭제하지 않음");
+	int i;
+	HBRUSH MyBrush, OldBrush;
+	HPEN MyPen, OldPen;
 
 	switch (iMessage) {
-	case WM_KEYDOWN:
-		switch (wParam) {
-		case '1':
-			TestResource(TRUE, TRUE, 10000);
-			break;
-		case '2':
-			TestResource(FALSE, TRUE, 10000);
-			break;
-		case '3':
-			TestResource(FALSE, FALSE, 10000);
-			break;
-		}
-		return 0;
 	case WM_CREATE:
 		hWndMain = hWnd;
 		return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
-		TextOut(hdc, 10, 10, Mess, lstrlen(Mess));
+		for (int i = 0; i < 250; i += 5) {
+			MoveToEx(hdc, 0, i, NULL);
+			LineTo(hdc, 600, i);
+		}
+
+		// 빨간 펜 초록 브러시
+		MyBrush = CreateSolidBrush(RGB(0, 255, 0));
+		OldBrush = (HBRUSH)SelectObject(hdc, MyBrush);
+		MyPen = CreatePen(PS_SOLID, 5, RGB(255, 0, 0));
+		OldPen = (HPEN)SelectObject(hdc, MyPen);
+		Ellipse(hdc, 20, 20, 150, 150);
+
+		// 빨간 펜 널 브러시
+		SelectObject(hdc, GetStockObject(NULL_BRUSH));
+		Ellipse(hdc, 220, 20, 350, 150);
+
+		// 널 펜 초록 브러시
+		SelectObject(hdc, MyBrush);
+		SelectObject(hdc, GetStockObject(NULL_PEN));
+		Ellipse(hdc, 420, 20, 550, 150);
+
+		DeleteObject(SelectObject(hdc, OldBrush));
+		DeleteObject(SelectObject(hdc, OldPen));
 		EndPaint(hWnd, &ps);
 		return 0;
 	case WM_DESTROY:

@@ -1,0 +1,8 @@
+﻿  Static.cpp
+C:\Users\psh95\OneDrive\바탕 화면\상현\공부\Game Programing\WinAPI-Study\Static\Static\Static.cpp(37,6): warning C4101: 'hdc' :참조되지 않은 지역 변수입니다.
+C:\Users\psh95\OneDrive\바탕 화면\상현\공부\Game Programing\WinAPI-Study\Static\Static\Static.cpp(38,14): warning C4101: 'ps' :참조되지 않은 지역 변수입니다.
+Static.rc(74): warning RC2182: duplicate dialog control ID 109
+  
+Static.rc(75): warning RC2182: duplicate dialog control ID 109
+  
+  Static.vcxproj -> C:\Users\psh95\OneDrive\바탕 화면\상현\공부\Game Programing\WinAPI-Study\Static\Debug\Static.exe

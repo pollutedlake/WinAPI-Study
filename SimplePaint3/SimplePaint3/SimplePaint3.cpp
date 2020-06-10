@@ -4,7 +4,8 @@
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 BOOL CALLBACK PaintDlgProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam);
 HINSTANCE g_hInst;
-LPCTSTR lpszClass = TEXT("SimplePaint2");
+HWND hWndMain, hMDlg;
+LPCTSTR lpszClass = TEXT("SimplePaint3");
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdParam, int nCmdShow) {
 	HWND hWnd;
@@ -27,7 +28,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 	hWnd = CreateWindow(lpszClass, lpszClass, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, (HMENU)NULL, hInstance, NULL);
 	ShowWindow(hWnd, nCmdShow);
 
+	hWndMain = hWnd;
+
 	while (GetMessage(&Message, NULL, 0, 0)) {
+		if(!IsWindow(hMDlg)||!IsDialogMessage(hMDlg, &Message))
 		TranslateMessage(&Message);
 		DispatchMessage(&Message);
 	}
@@ -54,32 +58,39 @@ BOOL CALLBACK PaintDlgProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lPara
 		return TRUE;
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-		case IDOK:		// OK버튼 누르면 설정한 색, 두께 저장하고 Dialog 종료
+		case IDC_RED:		// 설정을 바꿀때마다 즉시 적용
 			if (IsDlgButtonChecked(hDlg, IDC_RED) == BST_CHECKED) {
 				Color = RGB(255, 0, 0);
 			}
-			else if (IsDlgButtonChecked(hDlg, IDC_BLUE) == BST_CHECKED) {
+			return TRUE;
+		case IDC_BLUE:
+			if (IsDlgButtonChecked(hDlg, IDC_BLUE) == BST_CHECKED) {
 				Color = RGB(0, 0, 255);
 			}
-			else if (IsDlgButtonChecked(hDlg, IDC_YELLOW) == BST_CHECKED) {
+			return TRUE;
+		case IDC_YELLOW:
+			if (IsDlgButtonChecked(hDlg, IDC_YELLOW) == BST_CHECKED) {
 				Color = RGB(255, 255, 0);
 			}
-			else {
-				Color = RGB(0, 0, 0);
-			}
+			return TRUE;
+		case IDC_THICKER:
 			if (IsDlgButtonChecked(hDlg, IDC_THICKER) == BST_CHECKED) {
 				bThick = TRUE;
 			}
 			else {
 				bThick = FALSE;
 			}
-			EndDialog(hDlg, IDOK);
 			return TRUE;
-		case IDCANCEL:		// Cancel 버튼을 누르면 설정한 값 저장하지 않고 종료
-			EndDialog(hDlg, IDCANCEL);
+		case ID_CLEAR:		// 지우기 버튼을 누르면 화면 지우기
+			InvalidateRect(hWndMain, NULL, TRUE);
+			return TRUE;
+		case IDCANCEL:
+		case ID_CLOSE:		// 닫기 버튼을 누르면 대화상자 종료
+			DestroyWindow(hMDlg);
+			hMDlg = NULL;
 			return TRUE;
 		}
-		return FALSE;
+		break;
 	}
 	return FALSE;
 }
@@ -106,8 +117,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 			break;
 		}
 		return 0;
-	case WM_RBUTTONDOWN:		// 마우스 우클릭 시 DIalog 호출
-		DialogBox(g_hInst, MAKEINTRESOURCE(IDD_PAINT), hWnd, PaintDlgProc);
+	case WM_RBUTTONDOWN:		// 마우스 우클릭 시 Modeless DIalog 호출
+		if (!IsWindow(hMDlg)) {
+			hMDlg = CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_PAINT), hWnd, PaintDlgProc);
+			ShowWindow(hMDlg, SW_SHOW);
+		}
 		return 0;
 	case WM_MOUSEMOVE:			// 마우스를 움직였을 때 발생하는 메시지
 		if (bNowDraw == TRUE) {
